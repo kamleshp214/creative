@@ -28,10 +28,10 @@ const BASE_URL =
 const app = express();
 
 // Configure CORS
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? [process.env.FRONTEND_URL]
-    : ["https://synapshare.onrender.com"];
+const allowedOrigins = [
+  "https://your-frontend.onrender.com", // Replace with your actual frontend Render URL
+  "http://localhost:3000", // For local development
+];
 
 app.use(
   cors({
