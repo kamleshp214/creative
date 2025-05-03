@@ -1,5 +1,3 @@
-// App.js
-
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { auth } from "./firebase";
@@ -24,8 +22,8 @@ import {
   FiX, FiUser,
 } from "react-icons/fi";
 
-// Set backend base URL
-const API_BASE = "https://synapshare-yofb.onrender.com";
+// Use environment variable for backend URL, fallback to Render URL if not set
+const API_BASE = process.env.REACT_APP_API_URL || "https://synapshare-yofb.onrender.com";
 
 function App() {
   const [user, setUser] = useState(null);
