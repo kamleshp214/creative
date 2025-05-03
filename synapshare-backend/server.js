@@ -31,7 +31,7 @@ const app = express();
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? [process.env.FRONTEND_URL]
-    : ["http://localhost:3000"];
+    : ["https://synapshare.onrender.com"];
 
 app.use(
   cors({
