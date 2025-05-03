@@ -1,3 +1,5 @@
+// App.js
+
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { auth } from "./firebase";
@@ -12,26 +14,18 @@ import Search from "./pages/Search";
 import Admin from "./pages/Admin";
 import Privacy from "./pages/Privacy";
 import About from "./pages/About";
-import Contact from "./pages/Contact"; // Newly created
+import Contact from "./pages/Contact";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import axios from "axios";
 import {
-  FiHome,
-  FiFileText,
-  FiMessageSquare,
-  FiGrid,
-  FiBookOpen,
-  FiSearch,
-  FiShield,
-  FiLogOut,
-  FiLogIn,
-  FiMoon,
-  FiSun,
-  FiMenu,
-  FiX,
-  FiUser,
+  FiHome, FiFileText, FiMessageSquare, FiGrid, FiBookOpen,
+  FiSearch, FiShield, FiLogOut, FiLogIn, FiMoon, FiSun, FiMenu,
+  FiX, FiUser,
 } from "react-icons/fi";
+
+// Set backend base URL
+const API_BASE = "https://synapshare-yofb.onrender.com";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -48,7 +42,7 @@ function App() {
         try {
           const token = await user.getIdToken();
           const response = await axios.get(
-            `http://localhost:5000/api/user/${user.uid}`,
+            `${API_BASE}/api/user/${user.uid}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -110,34 +104,22 @@ function App() {
           options={particlesOptions}
           className="absolute inset-0 z-0 pointer-events-none"
         />
-        {/* Navbar */}
         <header className="fixed top-0 left-0 right-0 bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 z-50">
           <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <Link
-              to="/"
-              className="text-xl font-bold text-black dark:text-white"
-            >
+            <Link to="/" className="text-xl font-bold text-black dark:text-white">
               SynapShare
             </Link>
-            <div
-              className={`lg:flex items-center gap-4 ${
-                isNavOpen ? "flex" : "hidden"
-              } lg:static fixed top-14 left-0 right-0 bg-gray-100 dark:bg-gray-900 p-4 flex-col lg:flex-row lg:p-0 border-b lg:border-none border-gray-200 dark:border-gray-700`}
-            >
+            <div className={`lg:flex items-center gap-4 ${
+              isNavOpen ? "flex" : "hidden"
+            } lg:static fixed top-14 left-0 right-0 bg-gray-100 dark:bg-gray-900 p-4 flex-col lg:flex-row lg:p-0 border-b lg:border-none border-gray-200 dark:border-gray-700`}>
               {[
                 { to: "/", icon: FiHome, label: "Home" },
                 { to: "/notes", icon: FiFileText, label: "Notes" },
-                {
-                  to: "/discussions",
-                  icon: FiMessageSquare,
-                  label: "Discussions",
-                },
+                { to: "/discussions", icon: FiMessageSquare, label: "Discussions" },
                 { to: "/nodes", icon: FiGrid, label: "Nodes" },
                 { to: "/news", icon: FiBookOpen, label: "News" },
                 { to: "/search", icon: FiSearch, label: "Search" },
-                ...(isAdmin
-                  ? [{ to: "/admin", icon: FiShield, label: "Admin" }]
-                  : []),
+                ...(isAdmin ? [{ to: "/admin", icon: FiShield, label: "Admin" }] : []),
               ].map((item) => (
                 <Link
                   key={item.to}
@@ -153,10 +135,7 @@ function App() {
             <div className="flex items-center gap-3">
               {user ? (
                 <div className="flex items-center gap-2">
-                  <Link
-                    to="/"
-                    className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white"
-                  >
+                  <Link to="/" className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white">
                     <FiUser size={16} />
                     <span className="text-sm hidden sm:block">
                       {username || user.email.split("@")[0]}
@@ -198,36 +177,17 @@ function App() {
           </nav>
         </header>
 
-        {/* Main Content */}
         <main className="flex-1 pt-16 pb-16 relative z-10">
           <div className="min-h-[calc(100vh-128px)]">
             <Routes>
-              <Route
-                path="/"
-                element={<Home user={user} username={username} />}
-              />
-              <Route
-                path="/notes"
-                element={<Notes user={user} username={username} />}
-              />
-              <Route
-                path="/discussions"
-                element={<Discussions user={user} username={username} />}
-              />
-              <Route
-                path="/nodes"
-                element={<Nodes user={user} username={username} />}
-              />
+              <Route path="/" element={<Home user={user} username={username} />} />
+              <Route path="/notes" element={<Notes user={user} username={username} />} />
+              <Route path="/discussions" element={<Discussions user={user} username={username} />} />
+              <Route path="/nodes" element={<Nodes user={user} username={username} />} />
               <Route path="/news" element={<News />} />
-              <Route
-                path="/search"
-                element={<Search user={user} username={username} />}
-              />
+              <Route path="/search" element={<Search user={user} username={username} />} />
               <Route path="/login" element={<Login />} />
-              <Route
-                path="/admin"
-                element={<Admin user={user} username={username} />}
-              />
+              <Route path="/admin" element={<Admin user={user} username={username} />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
